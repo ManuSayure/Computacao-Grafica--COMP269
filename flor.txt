@@ -1,0 +1,88 @@
+#include <GL/gl.h>
+#include <GL/glut.h>
+#include <math.h>
+//#include "flor.h"
+
+const double PI = 3.141592654;
+int direcao = 1;
+int grau = 0;
+const float cores[4][3] =
+    {
+        {0.0f,1.0f,0.0f},
+        {1.0f,0.0f,0.0f},
+        {0.0f,0.0f,1.0f},
+        {1.0f,1.0f,0.0f}
+    };
+
+void MouseRotate(int button, int x, int y, int state)
+{
+    switch(button)
+    {
+        case GLUT_LEFT_BUTTON:
+            ++direcao;
+        break;
+        case GLUT_RIGHT_BUTTON:
+            --direcao;
+        break;
+    }
+}
+
+float get_rad(float mod, float mult) {
+    return (mod + grau + 90 * mult) * PI/180;
+}
+
+
+void desenha(float x) {
+    int i;
+    float center_x = 0.0f;
+    float center_y = 0.2f;
+    float adjust_radius = 0.2f;
+    float adjust_spade = 40;
+
+    glColor3f(1.0f, 1.0f, 1.0f);
+
+    glBegin(GL_TRIANGLES);
+
+    glVertex2f(x, -0.8f);
+    glVertex2f(x+0.005f, 0.2f);
+    glVertex2f(x-0.005f, 0.2f);
+
+    glEnd();
+
+    for (i = 0; i < 4; i++) {
+        glColor3f(cores[i][0],cores[i][1],cores[i][2]);
+
+        glBegin(GL_TRIANGLES);
+
+        glVertex2f(x+center_x, center_y);
+        glVertex2f((sin(get_rad(0,i))*adjust_radius) + x+center_x,
+            (cos(get_rad(0,i))*adjust_radius) + center_y);
+        glVertex2f((sin(get_rad(adjust_spade,i))*adjust_radius) + x+center_x,
+            (cos(get_rad(adjust_spade,i))*adjust_radius) + center_y);
+
+        glEnd();
+    }
+}
+
+void displayFnc() {
+
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glutMouseFunc(MouseRotate);
+
+    desenha(0.0f);
+
+    glutSwapBuffers();
+
+}
+
+void desenha_Frame(int v) {
+    grau += direcao; ///se o botão esquerdo do mouse for acionado os graus ficam negativos
+    glutPostRedisplay();
+    glutTimerFunc(20,desenha_Frame,0);
+}
+
+void init() {
+    glClearColor(1.0f, 0.5f, 0, 1);
+}
+

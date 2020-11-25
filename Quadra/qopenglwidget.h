@@ -1,0 +1,4 @@
+#ifndef QOPENGLWIDGET_H
+#define QOPENGLWIDGET_H
+
+#endif // QOPENGLWIDGET_H
