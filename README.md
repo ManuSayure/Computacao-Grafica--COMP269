@@ -1,2 +1,2 @@
-# Computa-o-Gr-fica-COMP269
+# Computa-o-Grafica-COMP269
 Disciplina do curso de Ciências da Computação UFAL
