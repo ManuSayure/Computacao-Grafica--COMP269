@@ -5,23 +5,23 @@ const int width = 800, height = 800;
 int year = 0, day = 0;
 GLfloat lightSpotCutoff = 10, attenuation = 0.25;
 double lx = 0, ly = 0, lz = 0, yAngle = 0;
-int yearL = 0;
+int yearL = 0; int k = 1;
 
 void scheduleUpdate(int value)
 {
   glutTimerFunc(10, scheduleUpdate, 1);
   // day += 50;
   // if (day >= 360) year += 1, day %= 360;
-  printf("%8.3lf %8.3lf %8.3lf || %8.3lf\n", lx, ly, lz, yAngle);
+  printf("%8.3lf %8.3lf %8.3lf || %8.3lf ||year: %d || yearL: %d || k: %d\ n ", lx, ly, lz, yAngle,year, yearL, k);
 
 
-  day ++, year ++; yearL --;
+  day ++, year ++; yearL+= k;
   glutPostRedisplay();
 }
 
 void keyboardHandler(unsigned char key, int x, int y)
 {
-    switch(key){
+    switch(key){/*
 		case 'd':
 			day = (day + 10)%360;
 			glutPostRedisplay();
@@ -29,17 +29,21 @@ void keyboardHandler(unsigned char key, int x, int y)
 		case 'D':
 			day = (day-10) % 360;
 			glutPostRedisplay();
-			break;
+			break;*/
 		case 'y':
 		   //yAngle += 1;
-		    year = (year + 5) % 360;
-            yearL = (yearL - 5) % 360;
-
+		    //year = (year + 5) % 360;
+            //yearL = (yearL - 5) % 360;
+           // yearL = -(year);
+            yearL = -yearL;
+            k= -1;
 			glutPostRedisplay();
 			break;
+
 		case 'Y':
-		      year = (year + 5) % 360;
-              yearL = (yearL - 5) % 360;
+		     // year = (year + 5) % 360;
+              yearL = -yearL;
+              k= -1;
 
 		   // yAngle += 1;
 			//day = (year + 5)%360;
